@@ -52,8 +52,8 @@ class Test(Frame):
         self.QUIT.pack(side=BOTTOM, fill=BOTH)
 
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

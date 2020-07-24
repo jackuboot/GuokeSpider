@@ -56,19 +56,19 @@ def listmanpages(mandir):
 
 class SelectionBox:
 
-    def __init__(self, master=None):
+    def __init__(self, main=None):
         self.choices = []
 
-        self.frame = Frame(master, name="frame")
+        self.frame = Frame(main, name="frame")
         self.frame.pack(expand=1, fill=BOTH)
-        self.master = self.frame.master
+        self.main = self.frame.main
         self.subframe = Frame(self.frame, name="subframe")
         self.subframe.pack(expand=0, fill=BOTH)
         self.leftsubframe = Frame(self.subframe, name='leftsubframe')
         self.leftsubframe.pack(side=LEFT, expand=1, fill=BOTH)
         self.rightsubframe = Frame(self.subframe, name='rightsubframe')
         self.rightsubframe.pack(side=RIGHT, expand=1, fill=BOTH)
-        self.chaptervar = StringVar(master)
+        self.chaptervar = StringVar(main)
         self.chapter = Menubutton(self.rightsubframe, name='chapter',
                                   text='Directory', relief=RAISED,
                                   borderwidth=2)

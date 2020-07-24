@@ -53,8 +53,8 @@ class Test(Frame):
         Widget.bind(self.draw, "<1>", self.mouseDown)
         Widget.bind(self.draw, "<B1-Motion>", self.mouseMove)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

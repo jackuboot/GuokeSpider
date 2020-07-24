@@ -358,7 +358,7 @@ class PimpPreferences:
 class PimpDatabase:
     """Class representing a pimp database. It can actually contain
     information from multiple databases through inclusion, but the
-    toplevel database is considered the master, as its maintainer is
+    toplevel database is considered the main, as its maintainer is
     "responsible" for the contents."""
 
     def __init__(self, prefs):

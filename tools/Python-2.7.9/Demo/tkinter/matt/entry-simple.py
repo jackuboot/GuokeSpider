@@ -4,8 +4,8 @@ import string
 # This program  shows how to use a simple type-in box
 
 class App(Frame):
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         self.pack()
 
         self.entrythingy = Entry()
@@ -20,5 +20,5 @@ class App(Frame):
         print "hi. contents of entry is now ---->", self.entrythingy.get()
 
 root = App()
-root.master.title("Foo")
+root.main.title("Foo")
 root.mainloop()

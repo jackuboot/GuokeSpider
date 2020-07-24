@@ -39,7 +39,7 @@ class App(ttk.Frame):
 
 def main():
     app = App()
-    app.master.title("Ttk Combobox")
+    app.main.title("Ttk Combobox")
     app.mainloop()
 
 if __name__ == "__main__":

@@ -8,12 +8,12 @@ from Tkinter import *
 import sys
 
 
-def dialog(master, title, text, bitmap, default, *args):
+def dialog(main, title, text, bitmap, default, *args):
 
     # 1. Create the top-level window and divide it into top
     # and bottom parts.
 
-    w = Toplevel(master, class_='Dialog')
+    w = Toplevel(main, class_='Dialog')
     w.title(title)
     w.iconname('Dialog')
 

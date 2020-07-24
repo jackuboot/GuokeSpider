@@ -54,8 +54,8 @@ class Test(Frame):
         self.hi_there.pack(side=LEFT)
 
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.windownum = 0
         self.createWidgets()

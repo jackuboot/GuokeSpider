@@ -103,10 +103,10 @@ def doDestroy():
     global root
     root.destroy()
 
-def createCommonButtons(master):
-    ok = Tix.Button(master, name='ok', text='OK', width=6,
+def createCommonButtons(main):
+    ok = Tix.Button(main, name='ok', text='OK', width=6,
                 command=doDestroy)
-    cancel = Tix.Button(master, name='cancel',
+    cancel = Tix.Button(main, name='cancel',
                     text='Cancel', width=6,
                     command=doDestroy)
 

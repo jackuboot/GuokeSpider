@@ -66,7 +66,7 @@ class DemoDirList:
                                   ''')
 
         font = self.root.tk.eval('tix option get fixed_font')
-        # font = self.root.master.tix_option_get('fixed_font')
+        # font = self.root.main.tix_option_get('fixed_font')
         top.ent.entry['font'] = font
 
         self.dlist_dir = copy.copy(os.curdir)

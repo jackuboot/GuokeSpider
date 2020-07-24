@@ -7,7 +7,7 @@ class Test(Frame):
         self.Gpanel = Frame(self, width='1i', height='1i',
                             background='green')
 
-        # this line turns off the recalculation of geometry by masters.
+        # this line turns off the recalculation of geometry by mains.
         self.Gpanel.propagate(0)
 
         self.Gpanel.pack(side=LEFT)
@@ -17,14 +17,14 @@ class Test(Frame):
                                   command=self.quit)
         self.Gpanel.QUIT.pack(side=LEFT)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 
 test = Test()
 
-test.master.title('packer demo')
-test.master.iconname('packer')
+test.main.title('packer demo')
+test.main.iconname('packer')
 
 test.mainloop()

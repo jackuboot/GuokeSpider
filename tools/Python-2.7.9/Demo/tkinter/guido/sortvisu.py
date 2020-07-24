@@ -31,9 +31,9 @@ WIDTH = 6
 
 class Array:
 
-    def __init__(self, master, data=None):
-        self.master = master
-        self.frame = Frame(self.master)
+    def __init__(self, main, data=None):
+        self.main = main
+        self.frame = Frame(self.main)
         self.frame.pack(fill=X)
         self.label = Label(self.frame)
         self.label.pack()
@@ -76,11 +76,11 @@ class Array:
     def cancel(self):
         self.stop_mainloop = 1
         if self.in_mainloop:
-            self.master.quit()
+            self.main.quit()
 
     def step(self):
         if self.in_mainloop:
-            self.master.quit()
+            self.main.quit()
 
     Cancelled = "Array.Cancelled"       # Exception
 
@@ -92,11 +92,11 @@ class Array:
         elif self.speed == "single-step":
             msecs = 1000000000
         if not self.stop_mainloop:
-            self.master.update()
-            id = self.master.after(msecs, self.master.quit)
+            self.main.update()
+            id = self.main.after(msecs, self.main.quit)
             self.in_mainloop = 1
-            self.master.mainloop()
-            self.master.after_cancel(id)
+            self.main.mainloop()
+            self.main.after_cancel(id)
             self.in_mainloop = 0
         if self.stop_mainloop:
             self.stop_mainloop = 0
@@ -128,7 +128,7 @@ class Array:
         x1, y1, x2, y2 = self.items[left].position()
 ##      top, bot = HIRO
         self.left.coords([(x1-2, 0), (x1-2, 9999)])
-        self.master.update()
+        self.main.update()
 
     def show_right(self, right):
         if not 0 <= right < self.size:
@@ -136,7 +136,7 @@ class Array:
             return
         x1, y1, x2, y2 = self.items[right].position()
         self.right.coords(((x2+2, 0), (x2+2, 9999)))
-        self.master.update()
+        self.main.update()
 
     def hide_left_right_pivot(self):
         self.hide_left()
@@ -266,11 +266,11 @@ class ArrayItem:
         otherfill = other.item['fill']
         self.item.config(fill='green')
         other.item.config(fill='yellow')
-        self.array.master.update()
+        self.array.main.update()
         if self.array.speed == "single-step":
             self.item.coords((mynewpts[:2], mynewpts[2:]))
             other.item.coords((othernewpts[:2], othernewpts[2:]))
-            self.array.master.update()
+            self.array.main.update()
             self.item.config(fill=myfill)
             other.item.config(fill=otherfill)
             self.array.wait(0)
@@ -481,13 +481,13 @@ def demosort(array):
 
 class SortDemo:
 
-    def __init__(self, master, size=15):
-        self.master = master
+    def __init__(self, main, size=15):
+        self.main = main
         self.size = size
         self.busy = 0
-        self.array = Array(self.master)
+        self.array = Array(self.main)
 
-        self.botframe = Frame(master)
+        self.botframe = Frame(main)
         self.botframe.pack(side=BOTTOM)
         self.botleftframe = Frame(self.botframe)
         self.botleftframe.pack(side=LEFT, fill=Y)
@@ -509,15 +509,15 @@ class SortDemo:
 
         # Terrible hack to overcome limitation of OptionMenu...
         class MyIntVar(IntVar):
-            def __init__(self, master, demo):
+            def __init__(self, main, demo):
                 self.demo = demo
-                IntVar.__init__(self, master)
+                IntVar.__init__(self, main)
             def set(self, value):
                 IntVar.set(self, value)
                 if str(value) != '0':
                     self.demo.resize(value)
 
-        self.v_size = MyIntVar(self.master, self)
+        self.v_size = MyIntVar(self.main, self)
         self.v_size.set(size)
         sizes = [1, 2, 3, 4] + range(5, 55, 5)
         if self.size not in sizes:
@@ -527,7 +527,7 @@ class SortDemo:
                             (self.botleftframe, self.v_size) + tuple(sizes))
         self.m_size.pack(fill=X)
 
-        self.v_speed = StringVar(self.master)
+        self.v_speed = StringVar(self.main)
         self.v_speed.set("normal")
         self.m_speed = OptionMenu(self.botleftframe, self.v_speed,
                                   "single-step", "normal", "fast", "fastest")
@@ -559,7 +559,7 @@ class SortDemo:
 
     def resize(self, newsize):
         if self.busy:
-            self.master.bell()
+            self.main.bell()
             return
         self.size = newsize
         self.array.setdata(range(1, self.size+1))
@@ -590,7 +590,7 @@ class SortDemo:
 
     def run(self, func):
         if self.busy:
-            self.master.bell()
+            self.main.bell()
             return
         self.busy = 1
         self.array.setspeed(self.v_speed.get())
@@ -604,13 +604,13 @@ class SortDemo:
 
     def c_cancel(self):
         if not self.busy:
-            self.master.bell()
+            self.main.bell()
             return
         self.array.cancel()
 
     def c_step(self):
         if not self.busy:
-            self.master.bell()
+            self.main.bell()
             return
         self.v_speed.set("single-step")
         self.array.setspeed("single-step")
@@ -619,7 +619,7 @@ class SortDemo:
     def c_quit(self):
         if self.busy:
             self.array.cancel()
-        self.master.after_idle(self.master.quit)
+        self.main.after_idle(self.main.quit)
 
 
 # Main program -- for stand-alone operation outside Grail

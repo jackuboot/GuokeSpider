@@ -23,8 +23,8 @@ class Test(Frame):
         self.guy3 = Button(self, text='button 3')
         self.guy3.pack()
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

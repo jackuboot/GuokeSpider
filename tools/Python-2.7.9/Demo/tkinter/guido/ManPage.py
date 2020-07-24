@@ -20,9 +20,9 @@ ulprog = re.compile('^[ \t]*[Xv!_][Xv!_ \t]*\n')
 class EditableManPage(ScrolledText):
 
     # Initialize instance
-    def __init__(self, master=None, **cnf):
+    def __init__(self, main=None, **cnf):
         # Initialize base class
-        apply(ScrolledText.__init__, (self, master), cnf)
+        apply(ScrolledText.__init__, (self, main), cnf)
 
         # Define tags for formatting styles
         self.tag_config('X', underline=1)
@@ -176,9 +176,9 @@ class EditableManPage(ScrolledText):
 class ReadonlyManPage(EditableManPage):
 
     # Initialize instance
-    def __init__(self, master=None, **cnf):
+    def __init__(self, main=None, **cnf):
         cnf['state'] = DISABLED
-        apply(EditableManPage.__init__, (self, master), cnf)
+        apply(EditableManPage.__init__, (self, main), cnf)
 
 # Alias
 ManPage = ReadonlyManPage

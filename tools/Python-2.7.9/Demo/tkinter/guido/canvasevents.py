@@ -215,9 +215,9 @@ class Pile2(Pile1):
 
 class Demo:
 
-    def __init__(self, master):
-        self.master = master
-        self.canvas = Canvas(master,
+    def __init__(self, main):
+        self.main = main
+        self.canvas = Canvas(main,
                              width=200, height=200,
                              background='yellow',
                              relief=SUNKEN, borderwidth=2)

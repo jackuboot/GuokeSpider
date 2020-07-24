@@ -524,10 +524,10 @@ class RowStack(OpenStack):
 
 class Solitaire:
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self, main):
+        self.main = main
 
-        self.canvas = Canvas(self.master,
+        self.canvas = Canvas(self.main,
                              background=BACKGROUND,
                              highlightthickness=0,
                              width=NROWS*XSPACING,
@@ -591,7 +591,7 @@ class Solitaire:
         for i in range(10, 0, -1):
             dx, dy = (dest.x-card.x)//i, (dest.y-card.y)//i
             card.moveby(dx, dy)
-            self.master.update_idletasks()
+            self.main.update_idletasks()
 
     def closeststack(self, card):
         closest = None

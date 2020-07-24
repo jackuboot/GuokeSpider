@@ -42,8 +42,8 @@ templates_path = ['_templates']
 # The suffix of source filenames.
 source_suffix = '.txt'
 
-# The master toctree document.
-master_doc = 'index'
+# The main toctree document.
+main_doc = 'index'
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
