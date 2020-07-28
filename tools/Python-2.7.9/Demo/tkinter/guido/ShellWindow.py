@@ -10,7 +10,7 @@ BUFSIZE = 512
 
 class ShellWindow(ScrolledText):
 
-    def __init__(self, master=None, shell=None, **cnf):
+    def __init__(self, main=None, shell=None, **cnf):
         if not shell:
             try:
                 shell = os.environ['SHELL']
@@ -20,7 +20,7 @@ class ShellWindow(ScrolledText):
         args = string.split(shell)
         shell = args[0]
 
-        apply(ScrolledText.__init__, (self, master), cnf)
+        apply(ScrolledText.__init__, (self, main), cnf)
         self.pos = '1.0'
         self.bind('<Return>', self.inputhandler)
         self.bind('<Control-c>', self.sigint)
@@ -47,7 +47,7 @@ class ShellWindow(ScrolledText):
                 msg = "killed by signal %d" % (cause & 0x7f)
                 if cause & 0x80:
                     msg = msg + " -- core dumped"
-            Dialog(self.master,
+            Dialog(self.main,
                    text=msg,
                    title="Exit status",
                    bitmap='warning',
@@ -95,7 +95,7 @@ class ShellWindow(ScrolledText):
         return self.sendsig(signal.SIGKILL)
 
     def no_process(self):
-        Dialog(self.master,
+        Dialog(self.main,
                text="No active process",
                title="No process",
                bitmap='error',

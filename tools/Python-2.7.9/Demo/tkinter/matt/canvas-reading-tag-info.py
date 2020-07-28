@@ -39,8 +39,8 @@ class Test(Frame):
 
         self.drawing.pack(side=LEFT)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

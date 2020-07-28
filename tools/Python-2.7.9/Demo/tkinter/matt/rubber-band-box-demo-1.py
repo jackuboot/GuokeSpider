@@ -39,8 +39,8 @@ class Test(Frame):
     def mouseUp(self, event):
         self.canvasObject.delete(self.rubberbandBox)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

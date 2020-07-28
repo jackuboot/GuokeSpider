@@ -21,10 +21,10 @@ class Option:
     def __init__(self, dialog, option):
         self.dialog = dialog
         self.option = option
-        self.master = dialog.top
+        self.main = dialog.top
         self.default, self.klass = dialog.options[option]
-        self.var = self.varclass(self.master)
-        self.frame = Frame(self.master)
+        self.var = self.varclass(self.main)
+        self.frame = Frame(self.main)
         self.frame.pack(fill=X)
         self.label = Label(self.frame, text=(option + ":"))
         self.label.pack(side=LEFT)
@@ -96,11 +96,11 @@ class ReadonlyOption(Option):
 
 class Dialog:
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self, main):
+        self.main = main
         self.fixclasses()
         self.refresh()
-        self.top = Toplevel(self.master)
+        self.top = Toplevel(self.main)
         self.top.title(self.__class__.__name__)
         self.top.minsize(1, 1)
         self.addchoices()
@@ -196,20 +196,20 @@ class PackDialog(Dialog):
 
 class RemotePackDialog(PackDialog):
 
-    def __init__(self, master, app, widget):
-        self.master = master
+    def __init__(self, main, app, widget):
+        self.main = main
         self.app = app
         self.widget = widget
         self.refresh()
-        self.top = Toplevel(self.master)
+        self.top = Toplevel(self.main)
         self.top.title(self.app + ' PackDialog')
         self.top.minsize(1, 1)
         self.addchoices()
 
     def refresh(self):
         try:
-            words = self.master.tk.splitlist(
-                    self.master.send(self.app,
+            words = self.main.tk.splitlist(
+                    self.main.send(self.app,
                                      'pack',
                                      'info',
                                      self.widget))
@@ -221,7 +221,7 @@ class RemotePackDialog(PackDialog):
             key = words[i][1:]
             value = words[i+1]
             dict[key] = value
-        dict['.class'] = self.master.send(self.app,
+        dict['.class'] = self.main.send(self.app,
                                           'winfo',
                                           'class',
                                           self.widget)
@@ -232,13 +232,13 @@ class RemotePackDialog(PackDialog):
         def set(self, e=None):
             self.current = self.var.get()
             try:
-                self.dialog.master.send(
+                self.dialog.main.send(
                         self.dialog.app,
                         'pack',
                         'config',
                         self.dialog.widget,
                         '-'+self.option,
-                        self.dialog.master.tk.merge(
+                        self.dialog.main.tk.merge(
                                 self.current))
             except TclError, msg:
                 print msg
@@ -360,19 +360,19 @@ class WidgetDialog(Dialog):
 
 class RemoteWidgetDialog(WidgetDialog):
 
-    def __init__(self, master, app, widget):
+    def __init__(self, main, app, widget):
         self.app = app
         self.widget = widget
-        self.klass = master.send(self.app,
+        self.klass = main.send(self.app,
                                  'winfo',
                                  'class',
                                  self.widget)
-        Dialog.__init__(self, master)
+        Dialog.__init__(self, main)
 
     def refresh(self):
         try:
-            items = self.master.tk.splitlist(
-                    self.master.send(self.app,
+            items = self.main.tk.splitlist(
+                    self.main.send(self.app,
                                      self.widget,
                                      'config'))
         except TclError, msg:
@@ -380,7 +380,7 @@ class RemoteWidgetDialog(WidgetDialog):
             return
         dict = {}
         for item in items:
-            words = self.master.tk.splitlist(item)
+            words = self.main.tk.splitlist(item)
             key = words[0][1:]
             value = (key,) + words[1:]
             dict[key] = value
@@ -393,7 +393,7 @@ class RemoteWidgetDialog(WidgetDialog):
         def set(self, e=None):
             self.current = self.var.get()
             try:
-                self.dialog.master.send(
+                self.dialog.main.send(
                         self.dialog.app,
                         self.dialog.widget,
                         'config',

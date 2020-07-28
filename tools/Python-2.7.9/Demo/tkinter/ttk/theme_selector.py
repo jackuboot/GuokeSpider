@@ -54,7 +54,7 @@ class App(ttk.Frame):
 
 def main():
     app = App()
-    app.master.title("Theme Selector")
+    app.main.title("Theme Selector")
     app.mainloop()
 
 if __name__ == "__main__":

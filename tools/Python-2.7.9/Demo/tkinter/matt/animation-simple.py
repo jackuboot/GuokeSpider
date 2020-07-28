@@ -23,8 +23,8 @@ class Test(Frame):
         self.after(10, self.moveThing)
 
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
         self.after(10, self.moveThing)

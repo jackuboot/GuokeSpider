@@ -18,8 +18,8 @@ class Test(Frame):
         self.hi_there = Button(self, text='Hello')
         self.hi_there.pack(side=LEFT)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 
@@ -29,7 +29,7 @@ class Test(Frame):
 
         # the docs would have you do this:
 
-#       self.master.protocol("WM_DELETE_WINDOW", my_delete_callback)
+#       self.main.protocol("WM_DELETE_WINDOW", my_delete_callback)
 
         # unfortunately, some window managers will not send this request to a window.
         # the "protocol" function seems incapable of trapping these "aggressive" window kills.

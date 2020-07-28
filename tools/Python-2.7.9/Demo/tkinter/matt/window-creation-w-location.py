@@ -8,12 +8,12 @@ import sys
 # can create new windows
 
 class QuitButton(Button):
-    def __init__(self, master, *args, **kwargs):
+    def __init__(self, main, *args, **kwargs):
         if not kwargs.has_key("text"):
             kwargs["text"] = "QUIT"
         if not kwargs.has_key("command"):
-            kwargs["command"] = master.quit
-        apply(Button.__init__, (self, master) + args, kwargs)
+            kwargs["command"] = main.quit
+        apply(Button.__init__, (self, main) + args, kwargs)
 
 class Test(Frame):
     def makeWindow(self, *args):
@@ -25,7 +25,7 @@ class Test(Frame):
         fred.label.create_line("0", "2i", "2i", "0")
         fred.label.pack()
 
-        ##centerWindow(fred, self.master)
+        ##centerWindow(fred, self.main)
 
     def createWidgets(self):
         self.QUIT = QuitButton(self)
@@ -36,8 +36,8 @@ class Test(Frame):
                                  command=self.makeWindow)
         self.makeWindow.pack(side=LEFT)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
 

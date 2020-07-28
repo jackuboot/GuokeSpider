@@ -58,7 +58,7 @@ def makeCommandMenu():
                                 underline=0)
     Command_button.pack(side=LEFT, padx="2m")
 
-    # make the pulldown part of the File menu. The parameter passed is the master.
+    # make the pulldown part of the File menu. The parameter passed is the main.
     # we attach it to the button as a python attribute called "menu" by convention.
     # hopefully this isn't too confusing...
     Command_button.menu = Menu(Command_button)

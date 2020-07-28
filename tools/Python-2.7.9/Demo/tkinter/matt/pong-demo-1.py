@@ -42,8 +42,8 @@ class Pong(Frame):
         self.draw.move(self.ball,  "%ri" % deltax, "%ri" % deltay)
         self.after(10, self.moveBall)
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
         self.after(10, self.moveBall)

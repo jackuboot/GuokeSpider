@@ -36,8 +36,8 @@ class Test(Frame):
             # before the next event is handled
             self.update_idletasks()
 
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
+    def __init__(self, main=None):
+        Frame.__init__(self, main)
         Pack.config(self)
         self.createWidgets()
         # this is a "tagOrId" for the rectangle we draw on the canvas

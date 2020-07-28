@@ -6,10 +6,10 @@ from Tkinter import *
 
 class App:
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self, main):
+        self.main = main
 
-        self.menubar = Menu(self.master)
+        self.menubar = Menu(self.main)
 
         self.filemenu = Menu(self.menubar)
 
@@ -17,7 +17,7 @@ class App:
         self.filemenu.add_command(label="Open...")
         self.filemenu.add_command(label="Close")
         self.filemenu.add_separator()
-        self.filemenu.add_command(label="Quit", command=self.master.quit)
+        self.filemenu.add_command(label="Quit", command=self.main.quit)
 
         self.editmenu = Menu(self.menubar)
 

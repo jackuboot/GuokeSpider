@@ -4,12 +4,12 @@ from Tkinter import *
 
 class App:
 
-    def __init__(self, top=None, master=None):
+    def __init__(self, top=None, main=None):
         if top is None:
-            if master is None:
+            if main is None:
                 top = Tk()
             else:
-                top = Toplevel(master)
+                top = Toplevel(main)
         self.top = top
         self.buttonframe = Frame(top)
         self.buttonframe.pack()

@@ -14,7 +14,7 @@ def reset_state(widget):
 class App(ttk.Frame):
     def __init__(self, title=None):
         ttk.Frame.__init__(self, borderwidth=6)
-        self.master.title(title)
+        self.main.title(title)
 
         self.style = ttk.Style()
 

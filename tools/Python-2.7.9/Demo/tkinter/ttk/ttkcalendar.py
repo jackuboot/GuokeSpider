@@ -20,7 +20,7 @@ class Calendar(ttk.Frame):
     datetime = calendar.datetime.datetime
     timedelta = calendar.datetime.timedelta
 
-    def __init__(self, master=None, **kw):
+    def __init__(self, main=None, **kw):
         """
         WIDGET-SPECIFIC OPTIONS
 
@@ -38,7 +38,7 @@ class Calendar(ttk.Frame):
         self._date = self.datetime(year, month, 1)
         self._selection = None # no date selected
 
-        ttk.Frame.__init__(self, master, **kw)
+        ttk.Frame.__init__(self, main, **kw)
 
         self._cal = get_calendar(locale, fwday)
 
@@ -80,7 +80,7 @@ class Calendar(ttk.Frame):
 
     def __setup_styles(self):
         # custom ttk styles
-        style = ttk.Style(self.master)
+        style = ttk.Style(self.main)
         arrow_layout = lambda dir: (
             [('Button.focus', {'children': [('Button.%sarrow' % dir, None)]})]
         )
@@ -126,9 +126,9 @@ class Calendar(ttk.Frame):
         self._calendar.bind('<ButtonPress-1>', self._pressed)
 
     def __minsize(self, evt):
-        width, height = self._calendar.master.geometry().split('x')
+        width, height = self._calendar.main.geometry().split('x')
         height = height[:height.index('+')]
-        self._calendar.master.minsize(width, height)
+        self._calendar.main.minsize(width, height)
 
     def _build_calendar(self):
         year, month = self._date.year, self._date.month

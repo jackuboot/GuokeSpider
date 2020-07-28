@@ -5,8 +5,8 @@ import string
 
 from Tkinter import *
 
-def listtree(master, app):
-    list = Listbox(master, name='list')
+def listtree(main, app):
+    list = Listbox(main, name='list')
     list.pack(expand=1, fill=BOTH)
     listnodes(list, app, '.', 0)
     return list
