@@ -8,6 +8,7 @@ from collections import Iterable
 import hashlib
 import re
 import sys
+import json
 
 class Creator(object):
 	
@@ -28,14 +29,14 @@ class Creator(object):
 		self.queue_put(queue, links)	
 		
 	def load_conf(self):
-		print "loading conf ing"
+		print("loading conf ing")
 		conf_instance = Conf()
 		return conf_instance
 	
 	def request_index_url(self, conf_instance):
 		#----------get html------------------------------
 		url = conf_instance.url
-		print url
+		print(url)
 		#data={"user":"user","password":"pass"}
 		headers = { "Accept":"text/html,application/xhtml+xml,application/xml;",
 	    	        "Accept-Encoding":"gzip",
@@ -44,68 +45,86 @@ class Creator(object):
 	            	"User-Agent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36"
 					}
 		res = requests.get(url,  headers=headers)
-		print res
+		print(res)
 		content = res.content
 		return  content 
 	
 	def analysis_html(self, content):
 		data_list = []
 		#---------change html to xml --------
+		content = content.decode(encoding='utf-8')
 		selector = etree.HTML(content)
 	
 		#get Title
-		titles = selector.xpath('//h2[@class="content-title"]//text()')
+		contentBody = selector.xpath('/html/body/script[6]/text()')
+		dataJsonAfterParse = json.loads(contentBody[0].replace('\n', '').replace('\r', '').lstrip().strip("window.INITIAL_STORE="))
+
+		# artcles data
+		articleList = dataJsonAfterParse['scienceArticleListStore']['articleList']
+		titles=[]
+		titleUrls = []
+		authorsNockNames = []
+		describes = []
+		for value in articleList:
+			titles.append(value['title'])
+			titleUrls.append('https://www.guokr.com/article/'+ str(value['id']))
+			authorsNockNames.append(value["author"]["nickname"])
+			describes.append(value["summary"])
+
+		# title Name
 		titles_new = []
-		#print "111111111111"
 		for i in titles:
 			if len(i) != 0:
 				titles_new.append(i.encode("utf-8"))
 		data_list.append(titles_new)
 		#print isinstance(titles,Iterable)
 		
-		#get Article url
-		#links = selector.xpath('//a[@data-gaevent="home_recommend_asks:v1.1.1.1:ask"]//@href')#('//div/a[@class="j_th_tit"]/@href')	
-		links = selector.xpath('//div[@class="content"]//ul//li//a[@title]//@href')#('//div/a[@class="j_th_tit"]/@href')	
+		# Article url
 		links_new  =[]
-		#print "222222222222"
-		for i in links:
+		for i in titleUrls:
 			j = i.strip()
 			if len(j) != 0:
 				links_new.append(i)
-	
 		if len(links_new) != 0:
 			data_list.append(links_new)	
 	
 	
 		#get Article describle
-		describes = selector.xpath('//div[@class="content"]//ul//li//a//text()')
 		describes_new = []
 		#print "3333333333"
 		for i in describes:
 			j = i.strip()
 			if len(j) != 0 and j != u'\u8be6\u7ec6':
-				print type(i)
-				print type(i.encode('utf-8'))
-				print i.encode('utf-8')
+				print(type(i))
+				print(type(i.encode('utf-8')))
+				print(i.encode('utf-8'))
 				describes_new.append(i.encode('utf-8'))
-	
 		if len(describes) != 0:
 			data_list.append(describes_new)
-		
+
+		authorsNockNames_new = []
+		for i in authorsNockNames:
+			j = i.strip()
+			if len(j) != 0 and j != u'\u8be6\u7ec6':
+				print(type(i))
+				print(type(i.encode('utf-8')))
+				print(i.encode('utf-8'))
+				authorsNockNames_new.append(i.encode('utf-8'))
+		if len(authorsNockNames) != 0:
+			data_list.append(authorsNockNames_new)
+
 		#create token
 		end_data = {}
 		j = 0
 		for i in links_new:
-		#	if len(i) != 0:
-		#		print "**********"
 			tmp = []
-			hash = hashlib.md5()
-			hash.update(i)
-			token = hash.hexdigest()
+			hashHandle = hashlib.md5()
+			hashHandle.update(i.encode(encoding='utf-8'))
+			token = hashHandle.hexdigest()
 			tmp.append(i)
-			#tmp.append(titles_new[j].decode('utf-8'))
-			#print "**********" + describes_new[j]	
-			tmp.append(describes_new[j].decode('utf-8'))
+			tmp.append(titles_new[j].decode('utf-8'))
+			tmp.append(describes[j])
+			tmp.append(authorsNockNames_new[j].decode('utf-8'))
 			end_data[token] = tmp
 			j = j + 1
 		
@@ -116,7 +135,7 @@ class Creator(object):
 		
 		
 	def queue_put(self, queue, data_dict):
-		print "This is producer, will input data:"
+		print("This is producer, will input data:")
 		dir_file = sys.path[0]
 		f = open(dir_file + '/Data/text/data.txt','a+')
 		for value in data_dict.values():
@@ -130,8 +149,8 @@ class Creator(object):
 				for i in  self.analysis_2_title(content):
 					#print i.encode("utf-8")
 					data_txt.append("<<" + i.encode("utf-8") + ">>")
-					print "today we find  new data:   %s"%(i.encode("utf-8"))
-	
+					print("today we find  new data:   %s" % (i.encode("utf-8")))
+
 				#set title as key, the article content as value, to create dict of list 			
 				for i in self.anakysis_2_body(content):
 					#print i.encode("utf-8")

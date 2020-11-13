@@ -1,5 +1,6 @@
-import ConfigParser
-import mysql.connector
+import configparser as ConfigParser
+import pymysql
+
 import re
 import json
 import collections
@@ -9,14 +10,14 @@ def get_cfg(cfg_name, db_name):
 	cfg = ConfigParser.ConfigParser()
 	cfg.read(cfg_name)
 	tuple_list = cfg.items(db_name)
-	dict = {}
+	dict_data = {}
 	for i in tuple_list:
-		dict[i[0]] = i[1]
-	return dict
+		dict_data[i[0]] = i[1]
+	return dict_data
 
 
 def connect_mysql(cfg_dict):
-	conn = mysql.connector.connect( user= cfg_dict["db_user"], password=cfg_dict["db_pwd"], host = cfg_dict["db_ip"])#, database= cfg_dict["db_databases"])
+	conn = pymysql.connect( user= cfg_dict["db_user"], password=cfg_dict["db_pwd"], host = cfg_dict["db_ip"], database= cfg_dict["db_databases"])
 	cursor = conn.cursor()
 	cursor.execute("show databases")
 	result_list = cursor.fetchall() #remeber to fechall data,if not get all, there will get a error:"unread result found",but if you just insert data,you don't care
@@ -38,8 +39,8 @@ def create_table(conn, cursor):
 	cursor.execute(order_1)
 	conn.commit()
 
-	conn.set_database('guoke_2')
-	order =	"CREATE TABLE if not exists guokecontent_1 (url varchar(64) DEFAULT NULL,title varchar(255) DEFAULT  NULL)ENGINE=MyISAM DEFAULT CHARSET=utf8"
+	# conn.set_database('guoke_2')
+	order =	"CREATE TABLE if not exists guokecontent_1 (url varchar(64) DEFAULT NULL,title varchar(64) DEFAULT  NULL,titledesc varchar(64) DEFAULT NULL, autorname varchar(64) DEFAULT NULL)ENGINE=MyISAM DEFAULT CHARSET=utf8"
 	#order = "CREATE TABLE `person_2` (`number` int(11) DEFAULT NULL, `name` varchar(255) DEFAULT NULL,`birthday` date DEFAULT NULL) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
 	cursor.execute(order)
 

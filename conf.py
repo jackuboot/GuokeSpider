@@ -1,6 +1,6 @@
 
 dict_ = {
-	"url":"http://www.guokr.com//",
+	"url":"https://www.guokr.com/science/category/all",
 }
 
 class Conf(object):

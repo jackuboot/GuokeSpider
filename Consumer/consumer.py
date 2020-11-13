@@ -2,30 +2,28 @@ from  Data import mysql_mothd
 import json
 import sys
 
-class Consumr():
+class Consumr:
 	def __init__(self):
 		self.name = "consumr"
 
 	#Consumer get data
 	def get_data(self, queue):
-		print "This is consumer, will get data:"
+		print("This is consumer, will get data:")
 		#print queue.get()
 		i = 0
 		string_oder = "INSERT INTO guokecontent_1 VALUES " 
 		while not queue.empty():
 			data_list =  queue.get()
-			for j in data_list:
-				print j.encode('utf-8')
-		
 			i = i + 1
 			#create mysql string
-			string_oder = string_oder + "('%s','%s'),"%(data_list[0].encode('utf-8'), data_list[1].encode('utf-8'))
+			print("作者字段长度:", len( data_list[3]))
+			string_oder = string_oder + "('%s','%s','%s','%s'),"%(data_list[0], data_list[1], data_list[2], data_list[3])
 			#putdata  in mysql
-		
-		string_oder = string_oder[:-1]	
+
+		string_oder = string_oder[:-1]
 		self.save_data_mysql(string_oder)
-		print  "TOTAL DATA:%d"%(i)
-	
+		print("TOTAL DATA:%d" % i)
+
 	#Consumer save data
 	def save_data_mysql(self, string_oder):
 		#get mysql cfg
